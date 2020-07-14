@@ -9,13 +9,13 @@ module.exports = {
     execute(message, args){
         let mentioned = message.mentions.users.first()
         if (!message.mentions.users.size) {
-            return message.reply('specify one to kiss m8, are u kissin yourself?');
-        } else if (message.mentions.users.size > 1) {
-            return message.reply('we dont support group kiss atm, check back later (or never)');
+            return message.reply('specify one to kiss m8, are u kissin yourself?')
+         } else if (message.mentions.users.size > 1) {
+            return message.reply('we dont support group kiss atm, check back later (or never)')
         } else if (mentioned === message.author) {
-            return message.reply('i get you\'re very lonely but how tf would u kiss yourself?');
+            return message.reply('i get you\'re very lonely but how tf would u kiss yourself?')
         } else if (mentioned.bot) {
-            return message.reply('technophilia isnt yet supported nerd');
+            return message.reply('technophilia isnt yet supported nerd')
         } 
         async function test() {
             let url = await (await neko.sfw.kiss()).url
@@ -30,7 +30,7 @@ module.exports = {
             if(h<10){h='0'+h}if(m<10){m='0'+m}if(s<10){s='0'+s}
             date = h+':'+m+':'+s+' '+dd+'/'+mm+'/'+yyyy
             const embed = MessageEmbed
-            .setDescription(`<@${message.author}> kissed <@${mentioned}>`)
+            .setDescription(`${message.author} kissed ${mentioned}`)
             .setImage(url)
             .setFooter(`requested by ${message.author.tag} @ ${date}, image provided by nekos.life`, 'https://i.imgur.com/ANXxtH4.png')
             message.channel.send(embed)

@@ -36,3 +36,6 @@ client.on('message', message => {
 })
 
 client.login(config.token)
+module.exports = {
+    cmdl: cmd
+}

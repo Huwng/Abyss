@@ -1,16 +1,11 @@
 const Discord = require(`discord.js`)
 const fs = require(`fs`)
-const commandFiles = fs.readdirSync('./cmds/').filter(file => file.endsWith('.js'))
+const cmd = require(`../main.js`).cmdl
 module.exports = {
     name:'help',
     description:"display help",
     execute(message, args){
         const MessageEmbed = new Discord.MessageEmbed()
-        var cmd = []
-        for(const file of commandFiles){
-            const command = require(`./${file}`)    
-            cmd.push({name: `${command.name}`, value: `${command.description}`, inline: true})
-        }
         let date = message.createdAt
             var dd = date.getDate()
             var mm = date.getMonth()+1  
