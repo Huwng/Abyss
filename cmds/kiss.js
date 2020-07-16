@@ -34,7 +34,7 @@ module.exports = {
             const embed = MessageEmbed
             .setDescription(`${message.author} kissed ${mentioned}`)
             .setImage(url)
-            .setFooter(`requested by ${message.author.tag} @ ${date}, image provided by nekos.life`, 'https://i.imgur.com/ANXxtH4.png')
+            .setFooter(`requested by ${message.author.tag} @ ${date}, image provided by nekos.life`, message.author.displayAvatarURL())
             message.channel.send(embed)
           }
         test()
