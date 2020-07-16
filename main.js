@@ -2,6 +2,7 @@ const Discord = require(`discord.js`)
 const client = new Discord.Client()
 const config = require('./config.json')
 const prefix = config.prefix
+const admin = config.admin
 const fs = require(`fs`)
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./cmds/').filter(file => file.endsWith('.js'))
@@ -31,9 +32,8 @@ client.on('message', message => {
 
     const args = message.content.slice(prefix.length).split(/ +/)
     const commandName = args.shift().toLowerCase()
-
-    if (!client.commands.has(commandName)) return message.channel.send(`command doesnt even exist lmao, type \`${prefix}help\` to see what we offer.`)
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
+    if (!command) return message.channel.send(`command doesnt even exist lmao, type \`${prefix}help\` to see what we offer.`)
     try {
 	    command.execute(message, args)
     } catch (error) {
@@ -45,5 +45,6 @@ client.on('message', message => {
 client.login(config.token)
 module.exports = {
     cmdl: cmd,
-    prefix: prefix
+    prefix: prefix,
+    admin: admin,
 }
