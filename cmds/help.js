@@ -1,8 +1,9 @@
 const Discord = require(`discord.js`)
 module.exports = {
     name:'help',
-    description:"display help",
+    description:"display help, what're you hoping to get here?",
     category:"general",
+    usage:"[command]",
     execute(message, args){
         const main = require(`../main.js`)
         const cmd = main.cmdl
@@ -22,6 +23,7 @@ module.exports = {
         if (!args.length) {
             const embed = MessageEmbed
                 .setAuthor('Abyss help', 'https://i.imgur.com/ANXxtH4.png')
+                .setDescription(`you can type ${prefix}help <command> to get more info on the command itself`)
                 .addFields(cmd)
                 .setFooter(`requested by ${message.author.tag} @ ${date}`, message.author.displayAvatarURL())
                 message.channel.send(embed)
@@ -34,7 +36,7 @@ module.exports = {
             .setAuthor('Abyss help', 'https://i.imgur.com/ANXxtH4.png')
             .setFooter(`requested by ${message.author.tag} @ ${date}`, message.author.displayAvatarURL())
             .setTitle(`${prefix}${command.name}`)
-            .setDescription(`${command.description} // category:${command.category}`)
+            .setDescription(`${command.description} \n **category: ${command.category}**`)
             if (command.aliases) {
                 embed.addField('Alias(es)', `${command.aliases.join(', ')}`)
             }
