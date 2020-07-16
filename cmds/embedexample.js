@@ -6,6 +6,7 @@ const neko = new h()
 module.exports = {
     name:'embedexample',
     description:"shows wth is a embed",
+    category:"ignore",
     execute(message, args){
         async function test() {
             let url = await (await neko.sfw.kiss()).url

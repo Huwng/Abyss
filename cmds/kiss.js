@@ -6,6 +6,8 @@ const MessageEmbed = new discord.MessageEmbed()
 module.exports = {
     name:'kiss',
     description:"love isnt in the air lmao",
+    category:"weeb stuff",
+    usage:"<user>",
     execute(message, args){
         let mentioned = message.mentions.users.first()
         if (!message.mentions.users.size) {

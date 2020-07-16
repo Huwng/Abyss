@@ -9,33 +9,41 @@ var cmd = []
 for(const file of commandFiles){
     const command = require(`./cmds/${file}`)
     client.commands.set(command.name, command)
-    cmd.push({name: `${command.name}`, value: `${command.description}`, inline: true})
+    cmd.push({name: `${command.category}`, value: `\`${command.name}\``, inline: true})
 }
+cmd = cmd.sort((c1,c2) => (c1.name > c2.name) ? 1 : (c1.name < c2.name) ? -1 : 0)
 client.once('ready', () => {
     console.log('we are live!')
     client.user.setActivity(`#bot-development`,{type:'WATCHING'})
-});
-
+})
+for (i=0; i<cmd.length-2; ++i) {
+    if (cmd[i].name ==="ignore") {
+        cmd.splice(i,1)
+        continue
+    }
+    if (cmd[i].name === cmd[i+1].name) {
+        cmd[i].value = cmd[i].value + ', ' + cmd[i+1].value
+        cmd.splice(i+1,1)
+    }
+}
 client.on('message', message => {
     if(!message.content.startsWith(prefix) || message.author.bot) return
 
     const args = message.content.slice(prefix.length).split(/ +/)
-    const commands = args.shift().toLowerCase()
+    const commandName = args.shift().toLowerCase()
 
-    if(commands === 'hi' || commands === 'hello') {
-        client.commands.get('hi').execute(message, args)
-    } else if(commands === 'embedexample' || commands === 'ee') {
-        client.commands.get('embedexample').execute(message, args)
-    } else if(commands === 'kiss') {
-        client.commands.get('kiss').execute(message, args)
-    } else if(commands === 'help') {
-        client.commands.get('help').execute(message, args)
-    } else if(commands === 'reload') {
-        client.commands.get('reload').execute(message, args)
-    } 
+    if (!client.commands.has(commandName)) return message.channel.send(`command doesnt even exist lmao, type \`${prefix}help\` to see what we offer.`)
+    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
+    try {
+	    command.execute(message, args)
+    } catch (error) {
+	    console.error(error)
+	    message.reply('there was an error trying to execute that command!')
+}
 })
 
 client.login(config.token)
 module.exports = {
-    cmdl: cmd
+    cmdl: cmd,
+    prefix: prefix
 }
