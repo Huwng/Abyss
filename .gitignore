@@ -105,4 +105,7 @@ dist
 
 #Config file
 config.json
+#Bot launcher file
 launch.bat
+#Scrapped / Not done idea
+*.scrapped

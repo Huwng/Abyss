@@ -1,11 +1,9 @@
-const auth = require(`../main.js`).admin
 module.exports = {
     name:'nuke',
     description:"nuke the entire channel",
     category:"admin stuff",
     aliases:["kimjongun", "wipe"],
     execute(message, args){
-        if (message.author.id != auth) return message.reply('ya aint foolin me lmao')
         async function wipe() {
             let pos = message.channel.position
             message.channel.clone().then((m) => {
