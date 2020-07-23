@@ -4,7 +4,6 @@ const config = require('./config.json')
 const prefix = config.prefix
 const admin = config.admin
 const fs = require(`fs`)
-const { type } = require('os')
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./cmds/').filter(file => file.endsWith('.js'))
 var cmd = []
@@ -63,7 +62,6 @@ client.on('message', message => {
                     let sample = /(?:.png)|(?:.jpg)|(?:.jpeg)|(?:.gif)|(?:.tif)|(?:.webp)/gi
                     let attach = me.attachments.get(me.attachments.firstKey())
                     let l = `.${attach.name.split('.').pop()}`
-                    console.log(l)
                     if (!sample.test(l)){
                         embed.addField("Attachment",`[${attach.name}](${attach.url})`)
                     } else {
