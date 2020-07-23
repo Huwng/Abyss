@@ -13,11 +13,7 @@ for(const file of commandFiles){
     cmd.push({name: `${command.category}`, value: `\`${command.name}\``, inline: true})
 }
 cmd = cmd.sort((c1,c2) => (c1.name > c2.name) ? 1 : (c1.name < c2.name) ? -1 : 0)
-client.once('ready', () => {
-    console.log('we are live!')
-    client.user.setActivity(`#bot-development`,{type:'WATCHING'})
-})
-for (i=0; i<cmd.length-2; ++i) {
+for (i=0; i<cmd.length-1; ++i) {
     if (cmd[i].name ==="ignore") {
         cmd.splice(i,1)
         continue
@@ -25,8 +21,13 @@ for (i=0; i<cmd.length-2; ++i) {
     if (cmd[i].name === cmd[i+1].name) {
         cmd[i].value = cmd[i].value + ', ' + cmd[i+1].value
         cmd.splice(i+1,1)
+        --i
     }
 }
+client.once('ready', () => {
+    console.log('we are live!')
+    client.user.setActivity(`#bot-development`,{type:'WATCHING'})
+})
 let regex = /(?:https:\/\/((?:canary\.)|(?:ptb\.))?((?:discordapp\.com)|((?:discord\.com)))\/channels\/)/gi
 client.on('message', message => {
     let check = regex.test(message.content)
@@ -76,7 +77,7 @@ client.on('message', message => {
     const commandName = args.shift().toLowerCase()
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
     if (!command) return message.channel.send(`command doesnt even exist lmao, type \`${prefix}help\` to see what we offer.`)
-    if (command.category = "admin stuff" && message.author.id != admin) return message.reply('ya aint foolin me lmao')
+    if (command.category == "admin stuff" && message.author.id !== admin) return message.reply('ya aint foolin me lmao')
     try {
 	    command.execute(message, args)
     } catch (error) {
