@@ -27,8 +27,6 @@ for (i=0; i<cmd.length-2; ++i) {
         cmd.splice(i+1,1)
     }
 }
-// let regex1 = /(?:https:\/\/((?:canary\.)|(?:ptb\.))?((?:discordapp\.com)|((?:discord\.com)))\/channels\/(?:[^A-Za-z]*))/gi
-// utter disappointment
 let regex = /(?:https:\/\/((?:canary\.)|(?:ptb\.))?((?:discordapp\.com)|((?:discord\.com)))\/channels\/)/gi
 client.on('message', message => {
     let check = regex.test(message.content)
@@ -37,14 +35,11 @@ client.on('message', message => {
         k = k.replace(regex,"").split("/")
         client.guilds.cache.get(k[0]).channels.cache.get(k[1]).messages.fetch(k[2]).then(me => 
             {
-                //message.channel.send(`Raw embed from ${m.author.username}#${m.author.discriminator} in <#${m.channel.name}>`)
-                // console.log("-----------------------------------")
-                // console.log(me.channel.name)
-                // console.log(`${me.author.tag}`)
-                // console.log(me.content)
-                // console.log(me.embeds)
-                // console.log(me.attachments)
-                // console.log("-----------------------------------")
+                if (me.embeds.length !== 0) {
+                    message.channel.send(`Raw embed from ${me.author.tag} in <#${me.channel.name}>`) 
+                    message.channel.send(me.embeds) 
+                    return
+                }
                 let date = message.createdAt
                 var dd = date.getDate()
                 var mm = date.getMonth()+1  
@@ -55,17 +50,23 @@ client.on('message', message => {
                 if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
                 if(h<10){h='0'+h}if(m<10){m='0'+m}if(s<10){s='0'+s}
                 date = h+':'+m+':'+s+' '+dd+'/'+mm+'/'+yyyy
-                console.log(me.attachments.get(me.attachments.firstKey()))
                 const MessageEmbed = new Discord.MessageEmbed()
                 const embed = MessageEmbed
                 .setAuthor(`${me.author.tag}`,me.author.displayAvatarURL())
-                .setFooter(`Quoted by ${message.author.tag} @ ${date}`,message.author.displayAvatarURL())
-                .addField("Jump URL",`[Click here](${message.content})`)
+                .setFooter(`Quoted by ${message.author.tag} @ ${date} | #${me.channel.name}`,message.author.displayAvatarURL())
                 if (me.content != ''){embed.setDescription(me.content)}
-                if (me.attachments != {}) {embed.addField("Attachment",me.attachments.get(me.attachments.firstKey()).url)}
+                if (me.attachments != {}) {
+                    let sample = '.tif.png.jpg.jpeg.webp.gif'
+                    let attach = me.attachments.get(me.attachments.firstKey())
+                    let l = attach.name.split('.').pop()
+                    if (sample.indexOf(l) === -1){
+                        embed.addField("Attachment",`[${attach.name}](${attach.url})`)
+                    } else {
+                        embed.setImage(attach.url)
+                    }
+                }
+                embed.addField("Jump URL",`[Click here](${message.content})`)
                 message.channel.send(embed)
-                //console.log(me.embeds.type)
-                //if (me.embeds) {message.channel.send(me.embeds)}
             }
         )
         return
