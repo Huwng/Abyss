@@ -4,6 +4,7 @@ const config = require('./config.json')
 const prefix = config.prefix
 const admin = config.admin
 const fs = require(`fs`)
+const { type } = require('os')
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./cmds/').filter(file => file.endsWith('.js'))
 var cmd = []
@@ -55,18 +56,20 @@ client.on('message', message => {
                 const embed = MessageEmbed
                 .setAuthor(`${me.author.tag}`,me.author.displayAvatarURL())
                 .setFooter(`Quoted by ${message.author.tag} @ ${date} | #${me.channel.name}`,message.author.displayAvatarURL())
+                .addField("Jump URL",`[Click here](${message.content})`)
                 if (me.content != ''){embed.setDescription(me.content)}
-                if (me.attachments != {}) {
-                    let sample = '.tif.png.jpg.jpeg.webp.gif'
+                let arr = [...me.attachments.keys()]
+                if (arr.length > 0) {
+                    let sample = /(?:.png)|(?:.jpg)|(?:.jpeg)|(?:.gif)|(?:.tif)|(?:.webp)/gi
                     let attach = me.attachments.get(me.attachments.firstKey())
-                    let l = attach.name.split('.').pop()
-                    if (sample.indexOf(l) === -1){
+                    let l = `.${attach.name.split('.').pop()}`
+                    console.log(l)
+                    if (!sample.test(l)){
                         embed.addField("Attachment",`[${attach.name}](${attach.url})`)
                     } else {
                         embed.setImage(attach.url)
                     }
                 }
-                embed.addField("Jump URL",`[Click here](${message.content})`)
                 message.channel.send(embed)
             }
         )
