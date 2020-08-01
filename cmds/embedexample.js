@@ -7,9 +7,10 @@ module.exports = {
     name:'embedexample',
     description:"shows wth is a embed",
     category:"ignore",
+    aliases:['ee'],
     execute(message, args){
         async function test() {
-            let url = await (await neko.sfw.kiss()).url
+            let url = await (await neko.sfw.gecg()).url
             let date = message.createdAt
             var dd = date.getDate()
             var mm = date.getMonth()+1  
@@ -22,8 +23,9 @@ module.exports = {
             date = h+':'+m+':'+s+' '+dd+'/'+mm+'/'+yyyy
             const embed = MessageEmbed
             .setDescription('hello')
-            //.setImage(url)
-            .setFooter(`requested by ${message.author.tag} @ ${date}, image provided by nekos.life`, 'https://i.imgur.com/ANXxtH4.png')
+            .setImage(url)
+            //.setFooter(`requested by ${message.author.tag} @ ${date}, image provided by nekos.life`, 'https://i.imgur.com/ANXxtH4.png')
+            .setTimestamp(message.createdAt)
             message.channel.send(embed)
           }
         test()

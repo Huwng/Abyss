@@ -41,20 +41,11 @@ client.on('message', message => {
                     message.channel.send(me.embeds) 
                     return
                 }
-                let date = message.createdAt
-                var dd = date.getDate()
-                var mm = date.getMonth()+1  
-                var yyyy = date.getFullYear()
-                var h = date.getHours()
-                var m = date.getMinutes()
-                var s = date.getSeconds()
-                if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
-                if(h<10){h='0'+h}if(m<10){m='0'+m}if(s<10){s='0'+s}
-                date = h+':'+m+':'+s+' '+dd+'/'+mm+'/'+yyyy
                 const MessageEmbed = new Discord.MessageEmbed()
                 const embed = MessageEmbed
+                .setTimestamp(message.createdAt)
                 .setAuthor(`${me.author.tag}`,me.author.displayAvatarURL())
-                .setFooter(`Quoted by ${message.author.tag} @ ${date} | #${me.channel.name}`,message.author.displayAvatarURL())
+                .setFooter(`Quoted by ${message.author.tag} | #${me.channel.name}`,message.author.displayAvatarURL())
                 .addField("Jump URL",`[Click here](${message.content})`)
                 if (me.content != ''){embed.setDescription(me.content)}
                 let arr = [...me.attachments.keys()]
@@ -79,6 +70,7 @@ client.on('message', message => {
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
     if (!command) return message.channel.send(`command doesnt even exist lmao, type \`${prefix}help\` to see what we offer.`)
     if (command.category == "admin stuff" && message.author.id !== admin) return message.reply('ya aint foolin me lmao')
+    if (command.category == "ignore" && message.author.id !== admin) return
     try {
 	    command.execute(message, args)
     } catch (error) {

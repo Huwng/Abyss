@@ -12,11 +12,11 @@ module.exports = {
         let acc = 0
         for (i=1; i<=4; ++i) {
             let r = Math.random()
-            if (r >=0.5) {
-                vote = vote + ":white_check_mark:"
+            if (r >= 0.5) {
+                vote = `${vote}:white_check_mark:`
                 acc = acc+1
             } else {
-                vote = vote + ":negative_squared_cross_mark:"
+                vote = `${vote}:negative_squared_cross_mark:`
             }
         }
         message.channel.send(vote)

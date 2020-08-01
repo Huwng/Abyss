@@ -10,22 +10,13 @@ module.exports = {
         const prefix = main.prefix
         const MessageEmbed = new Discord.MessageEmbed()
         const { commands } = message.client
-        let date = message.createdAt
-            var dd = date.getDate()
-            var mm = date.getMonth()+1  
-            var yyyy = date.getFullYear()
-            var h = date.getHours()
-            var m = date.getMinutes()
-            var s = date.getSeconds()
-            if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
-            if(h<10){h='0'+h}if(m<10){m='0'+m}if(s<10){s='0'+s}
-            date = h+':'+m+':'+s+' '+dd+'/'+mm+'/'+yyyy
         if (!args.length) {
             const embed = MessageEmbed
                 .setAuthor('Abyss help', 'https://i.imgur.com/ANXxtH4.png')
                 .setDescription(`you can type ${prefix}help <command> to get more info on the command itself`)
                 .addFields(cmd)
-                .setFooter(`requested by ${message.author.tag} @ ${date}`, message.author.displayAvatarURL())
+                .setFooter(`requested by ${message.author.tag}`, message.author.displayAvatarURL())
+                .setTimestamp(message.createdAt)
                 message.channel.send(embed)
                 return
         }
@@ -37,6 +28,7 @@ module.exports = {
             .setFooter(`requested by ${message.author.tag} @ ${date}`, message.author.displayAvatarURL())
             .setTitle(`${prefix}${command.name}`)
             .setDescription(`${command.description} \n **category: ${command.category}**`)
+            .setTimestamp(message.createdAt)
             if (command.aliases) {
                 embed.addField('Alias(es)', `${command.aliases.join(', ')}`)
             }
