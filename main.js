@@ -16,7 +16,6 @@ cmd = cmd.sort((c1,c2) => (c1.name > c2.name) ? 1 : (c1.name < c2.name) ? -1 : 0
 for (i=0; i<cmd.length-1; ++i) {
     if (cmd[i].name ==="ignore") {
         cmd.splice(i,1)
-        continue
     }
     if (cmd[i].name === cmd[i+1].name) {
         cmd[i].value = cmd[i].value + ', ' + cmd[i+1].value
@@ -24,6 +23,7 @@ for (i=0; i<cmd.length-1; ++i) {
         --i
     }
 }
+
 client.once('ready', () => {
     console.log('we are live!')
     client.user.setActivity(`#bot-development`,{type:'WATCHING'})
