@@ -25,7 +25,7 @@ module.exports = {
         if (!command) return message.channel.send(`not a valid command, type \`${prefix}help\` to see what we offer first.`)
         const embed = MessageEmbed
             .setAuthor('Abyss help', 'https://i.imgur.com/ANXxtH4.png')
-            .setFooter(`requested by ${message.author.tag} @ ${date}`, message.author.displayAvatarURL())
+            .setFooter(`requested by ${message.author.tag}`, message.author.displayAvatarURL())
             .setTitle(`${prefix}${command.name}`)
             .setDescription(`${command.description} \n **category: ${command.category}**`)
             .setTimestamp(message.createdAt)

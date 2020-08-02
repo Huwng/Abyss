@@ -9,7 +9,6 @@ module.exports = {
     category:"weeb stuff",
     usage:"<user(s)>",
     execute(message, args){
-        console.log(message.mentions.everyone)
         async function test() {
             function getUserFromMention(mention) {
                 if (!mention) return

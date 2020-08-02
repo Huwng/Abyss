@@ -23,7 +23,6 @@ for (i=0; i<cmd.length-1; ++i) {
         --i
     }
 }
-
 client.once('ready', () => {
     console.log('we are live!')
     client.user.setActivity(`#bot-development`,{type:'WATCHING'})
@@ -67,6 +66,10 @@ client.on('message', message => {
     if(!message.content.startsWith(prefix) || message.author.bot) return
     const args = message.content.slice(prefix.length).split(/ +/)
     const commandName = args.shift().toLowerCase()
+    if (commandName === '') {
+        client.commands.get('help').execute(message, args) 
+        return
+    }
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
     if (!command) return message.channel.send(`command doesnt even exist lmao, type \`${prefix}help\` to see what we offer.`)
     if (command.category == "admin stuff" && message.author.id !== admin) return message.reply('ya aint foolin me lmao')
