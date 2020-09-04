@@ -1,8 +1,7 @@
 const Discord = require(`discord.js`)
 const client = new Discord.Client()
-const config = require('./config.json')
-const prefix = config.prefix
-const admin = config.admin
+const prefix = process.env.prefix
+const admin = process.env.admin
 const fs = require(`fs`)
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./cmds/').filter(file => file.endsWith('.js'))
@@ -82,7 +81,7 @@ client.on('message', message => {
 }
 })
 
-client.login(config.token)
+client.login(process.env.token)
 module.exports = {
     cmdl: cmd,
     prefix: prefix,
