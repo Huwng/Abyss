@@ -8,7 +8,7 @@ module.exports = {
         const MessageEmbed = new discord.MessageEmbed()
         const embed = MessageEmbed
         .setDescription(`Covid-19 stats in Vietnam`)
-        .setFooter(`requested by ${message.author.tag}, API by Juno_okyo data from the Vietnamese MOH`)
+        .setFooter(`requested by ${message.author.tag}, API by Juno_okyo, data from the Vietnamese MOH`)
         .setTimestamp(message.createdAt)
         var request = require("request") //deprecated library lets GO
         var jar = request.jar()
