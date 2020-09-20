@@ -81,9 +81,10 @@ client.on('message', message => {
 	    message.reply('there was an error trying to execute that command!')
 }
 })
-console.log(process.env)
+
 client.login(process.env.token)
 module.exports = {
     cmdl: cmd,
     prefix: prefix,
+    clarinet: client,
 }
